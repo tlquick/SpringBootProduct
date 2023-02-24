@@ -48,7 +48,7 @@ class ProductControllerTest {
         Mockito.when(productRepository.findAll()).thenReturn(records);
         
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/products")
+                .get("/v1/products")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
@@ -59,7 +59,7 @@ class ProductControllerTest {
         Mockito.when(productRepository.findById(RECORD_1.getId())).thenReturn(java.util.Optional.of(RECORD_1));
 
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/products/1")
+                .get("/v1/products/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
@@ -75,7 +75,7 @@ class ProductControllerTest {
 
         Mockito.when(productRepository.save(record)).thenReturn(record);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/products")
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/v1/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(record));
@@ -85,7 +85,6 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$.name", is("product4")));
         }
-    
 		
 		@Test
 		public void updateProduct_success() throws Exception {
@@ -98,7 +97,7 @@ class ProductControllerTest {
 			Mockito.when(productRepository.findById(RECORD_1.getId())).thenReturn(Optional.of(RECORD_1));
 			Mockito.when(productRepository.save(updatedRecord)).thenReturn(updatedRecord);
 
-			MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/products/1")
+			MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/v1/products/1")
 					.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
 					.content(this.mapper.writeValueAsString(updatedRecord));
 
@@ -113,7 +112,7 @@ class ProductControllerTest {
 			Product updatedRecord = Product.builder().name("unicorn").description("non existent product").price(5.00)
 					.build();
 
-			MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/products/1")
+			MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/v1/products/1")
 					.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
 					.content(this.mapper.writeValueAsString(updatedRecord));
 
@@ -131,7 +130,7 @@ class ProductControllerTest {
 
         Mockito.when(productRepository.findById(updatedRecord.getId())).thenReturn(null);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/products/11")
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/v1/products/11")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(updatedRecord));
@@ -144,7 +143,7 @@ class ProductControllerTest {
         Mockito.when(productRepository.findById(RECORD_2.getId())).thenReturn(Optional.of(RECORD_2));
 
         mockMvc.perform(MockMvcRequestBuilders
-                .delete("/products/2")
+                .delete("/v1/products/2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
@@ -153,7 +152,7 @@ class ProductControllerTest {
 	public void deleteProduct_notFound() throws Exception {
 		Mockito.when(productRepository.findById(6)).thenReturn(null);
 
-		mockMvc.perform(MockMvcRequestBuilders.delete("/products/6").contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(MockMvcRequestBuilders.delete("/v1/products/6").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isNoContent());
 	}
 	 

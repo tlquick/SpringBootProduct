@@ -29,17 +29,17 @@ public class ProductController {
 
 	@GetMapping(path = "/")
 	public String getBanner() {
-		return "Welcome to my springboot products api, /actuator and /swagger-ui.html";
+		return "Welcome the products api; use /swagger-ui.html to see available endpoints and /actuator to monitor health. Endpoints are versioned eg v1/products.";
 	}
 
-	@GetMapping("/products")
+	@GetMapping("/v1/products")
 	public List<Product> getProducts() {
 
 		List<Product> products = new ArrayList<>();
 		repository.findAll().forEach(products::add);
 		return products;
 	}
-	@GetMapping("/products/{id}")
+	@GetMapping("/v1/products/{id}")
 	public ResponseEntity<Product> getProductById(@PathVariable("id") int id) {
 		Optional<Product> productData = repository.findById(id);
 
@@ -49,7 +49,7 @@ public class ProductController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	@PostMapping("/products")
+	@PostMapping("/v1/products")
 	public ResponseEntity<Product> createProduct(@RequestBody Product product) {
 		try {
 			Product _product = repository
@@ -59,7 +59,7 @@ public class ProductController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@PutMapping("/products/{id}")
+	@PutMapping("/v1/products/{id}")
 	public ResponseEntity<Product> updateProduct(@PathVariable("id") int id, @RequestBody Product product) {
 		Optional<Product> productData = repository.findById(id);
 		if(productData == null)
@@ -74,7 +74,7 @@ public class ProductController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	@DeleteMapping("/products/{id}")
+	@DeleteMapping("/v1/products/{id}")
 	public ResponseEntity<HttpStatus> deleteProduct(@PathVariable("id") int id) {
 		try {
 			repository.deleteById(id);
