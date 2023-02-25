@@ -16,10 +16,10 @@ services:
       - db:/var/lib/mysql
   api:
     container_name: product_api
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    #image: tlquick/products:0.0.1-SNAPSHOT
+    #build:
+      #context: ./
+      #dockerfile: Dockerfile
+    image: tlquick/products:0.0.1-SNAPSHOT
     ports:
       - '8080:8080'
     depends_on:
@@ -30,7 +30,7 @@ services:
       - RDS_DB_NAME=products
       - RDS_USERNAME=product-user
       - RDS_PASSWORD=dummyproduct
-    restart: on-failure
+    restart: always
 volumes:
   db:
     driver: local
