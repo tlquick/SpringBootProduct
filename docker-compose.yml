@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    cap_add:
+      - SYS_NICE
+    restart: always
+    environment:
+      - MYSQL_DATABASE=products
+      - MYSQL_ROOT_PASSWORD=dummypassword
+      - MYSQL_USER=product-user
+      - MYSQL_PASSWORD=dummyproduct
+    ports:
+      - '3306:3306'
+    volumes:
+      - db:/var/lib/mysql
+  api:
+    container_name: product_api
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    #image: tlquick/products:0.0.1-SNAPSHOT
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+    environment:
+      - RDS_HOSTNAME=db
+      - RDS_PORT=3306
+      - RDS_DB_NAME=products
+      - RDS_USERNAME=product-user
+      - RDS_PASSWORD=dummyproduct
+    restart: on-failure
+volumes:
+  db:
+    driver: local
