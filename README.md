@@ -15,3 +15,19 @@ Then stop the sql container in Docker Desktop and run:
 docker compose up
 ```
 To create the app in a docker container with an associated sql container <br>
+## Version 3:
+Added dockerfile-maven-plugin to pom.xml to allow docker image creation <br>
+Change the repository name from tlquick to your dockerhub username then run:
+```
+docker login
+```
+to ensure you are logged in to Docker Hub then
+```
+mvn clean install -DskipTests
+```
+to create the docker image then
+```
+docker push <dockerUser>/products:<Version>
+```
+For example: I used docker 'push tlquick/products:0.0.1-SNAPSHOT'
+Note: you can also uncomment <goal>push</goal> in the dockerfile-maven-plugin to do this task
