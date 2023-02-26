@@ -68,7 +68,7 @@ kubectl apply -f api-deployment.yaml,api-service.yaml
 to launch the api in k8s.
 ## Example Use
 You can explore the available endpoints by navigating to /swagger-ui.html. <br>
-![ProductRun](/product_example.jpg?raw=true "Example")
+![ProductRun](/product_example.png?raw=true "Example")
 To view the contents of the database navigate to /v1/products. <br>
 Each item can be viewed by id e.g /v1/products/1 will display the product with id 1 <br>
 To change data in the database, you need to use curl in a bash shell (linux) <br>
